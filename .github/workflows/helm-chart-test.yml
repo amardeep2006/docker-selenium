@@ -46,5 +46,9 @@ jobs:
       - name: Create kind cluster
         uses: helm/kind-action@v1.8.0
 
+      - name: verbose
+        run: |
+          kubectl cluster-info --context kind-chart-testing
+
       - name: Run chart-testing (install)
         run: ct install --all --config tests/chart-test.yaml
