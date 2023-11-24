@@ -63,38 +63,70 @@ jobs:
       - name: Run chart-testing (install)
         run: ct install --all --config tests/chart-test.yaml
 
-      - name: Deploy Selenium Grid Chart via Helm 
+      - name: Deploy Selenium Grid Chart With ChromeNode only
         run: |
-          helm install selenium-grid -f ./tests/override-kind-auth-values.yaml charts/selenium-grid --namespace selenium-grid-test --create-namespace
+          helm upgrade --install selenium-grid -f ./tests/override-kind-auth-chrome-values.yaml charts/selenium-grid --namespace selenium-grid-test --create-namespace
           kubectl get ingress --all-namespaces
 
-      - name: Wait for Grid deployment to be ready ⏰
-        timeout-minutes: 5
-        run: |
-          # Test if grid is accessible via Ingress on http://localhost
-          url="http://localhost/status"
-          status_code=0
-          while [ $status_code -ne 200 ]
-          do
-              response=$(curl -s -o /dev/null -w "%{http_code}" $url)
-              status_code=$(echo $response | tr -d '\n')
-              sleep 1
-          done
-          echo "Selenium Grid is ready.HTTP 200 status received. 🚀"
+      # - name: Wait for Grid deployment to be ready ⏰
+      #   timeout-minutes: 5
+      #   run: |
+      #     # Test if grid is accessible via Ingress on http://localhost
+      #     url="http://localhost/status"
+      #     status_code=0
+      #     while [ $status_code -ne 200 ]
+      #     do
+      #         response=$(curl -s -o /dev/null -w "%{http_code}" $url)
+      #         status_code=$(echo $response | tr -d '\n')
+      #         sleep 1
+      #     done
+      #     echo "Selenium Grid is ready.HTTP 200 status received. 🚀"
 
       - name: Get pods 
         run: |
           kubectl get pods -n selenium-grid-test
           kubectl get events -n selenium-grid-test
 
-      - name: Run Smoke Test Against Kubernetes
+      - name: Run Chrome Tests Against Kubernetes
         run: |
           python ./tests/K8sSmokeTest.py "http://localhost"
           chmod 755 ./tests/bootstrapKINDTests.sh
           export SELENIUM_GRID_HOST=localhost
           export SELENIUM_GRID_PORT=80
-          ./tests/bootstrapKINDTests.sh
-      - name: Get pods again
+          ./tests/bootstrapKINDTests.sh NodeChrome
+
+      - name: Deploy Selenium Grid Chart With EdgeNode only
+        run: |
+          helm upgrade --install selenium-grid -f ./tests/override-kind-auth-edge-values.yaml charts/selenium-grid --namespace selenium-grid-test --create-namespace
+          kubectl get ingress --all-namespaces
+
+      - name: Get pods 
         run: |
           kubectl get pods -n selenium-grid-test
           kubectl get events -n selenium-grid-test
+
+      - name: Run Edge Tests Against Kubernetes
+        run: |
+          python ./tests/K8sSmokeTest.py "http://localhost"
+          chmod 755 ./tests/bootstrapKINDTests.sh
+          export SELENIUM_GRID_HOST=localhost
+          export SELENIUM_GRID_PORT=80
+          ./tests/bootstrapKINDTests.sh NodeEdge
+
+      - name: Deploy Selenium Grid Chart With FirefoxNode only
+        run: |
+          helm upgrade --install selenium-grid -f ./tests/override-kind-auth-firefox-values.yaml charts/selenium-grid --namespace selenium-grid-test --create-namespace
+          kubectl get ingress --all-namespaces
+
+      - name: Get pods 
+        run: |
+          kubectl get pods -n selenium-grid-test
+          kubectl get events -n selenium-grid-test
+
+      - name: Run Firefox Tests Against Kubernetes
+        run: |
+          python ./tests/K8sSmokeTest.py "http://localhost"
+          chmod 755 ./tests/bootstrapKINDTests.sh
+          export SELENIUM_GRID_HOST=localhost
+          export SELENIUM_GRID_PORT=80
+          ./tests/bootstrapKINDTests.sh NodeFirefox          

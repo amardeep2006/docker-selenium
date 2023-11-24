@@ -11,7 +11,8 @@ python -m pip install selenium==4.15.0 \
                       docker===6.1.3 \
                       | grep -v 'Requirement already satisfied'
 
-python testOnGrid.py NodeChrome
+python testOnGrid.py $1
+# python testOnGrid.py NodeChrome
 # python testOnGrid.py NodeEdge
 # python testOnGrid.py NodeFirefox
 ret_code=$?
