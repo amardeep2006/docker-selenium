@@ -72,7 +72,18 @@ jobs:
           kubectl cluster-info
           kubectl get all
           kubectl get ingress --all-namespaces
-          sleep 90s # To be improved via a dyncmic health check
+          # sleep 90s # To be improved via a dyncmic health check
+
+      - name: Wait for Grid deployment to be ready ⏰
+        timeout-minutes: 5
+        run: |
+          # Wait for Status to be ready
+          until [[ $(curl -s "http://localhost/status" | tee /tmp/output_status.txt | jq -r .value.ready) -eq "true" ]]
+          do
+            cat /tmp/output_status.txt || true
+            echo "sleeping.........Not ready yet"
+            sleep 5
+          done
 
       - name: Run Test cases Against Kubernetes
         run: |
