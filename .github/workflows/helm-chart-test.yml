@@ -56,6 +56,7 @@ jobs:
         run: |
           helm repo add kedacore https://kedacore.github.io/charts
           helm repo update
+          helm dependency build charts/selenium-grid
           helm install selenium-grid charts/selenium-grid --namespace selenium-grid-test --create-namespace       
           sleep 300s # To be improved via a dyncmic health check
 
