@@ -3,3 +3,11 @@
 basicAuth:
   # Enable or disable basic auth
   enabled: false
+# Configuration for edge nodes
+edgeNode:
+  # Enable edge nodes
+  enabled: false
+# Configuration for firefox nodes
+firefoxNode:
+  # Enable firefox nodes
+  enabled: false
