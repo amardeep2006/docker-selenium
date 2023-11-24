@@ -68,15 +68,14 @@ jobs:
           helm upgrade --install selenium-grid -f ./tests/override-kind-auth-chrome-values.yaml charts/selenium-grid --namespace selenium-grid-test --create-namespace
           kubectl get ingress --all-namespaces
 
-      - name: Get pods 
+      - name: Verify Post Deployment Grid Health and k8s pods status 
         run: |
+          python ./tests/K8sSmokeTest.py "http://localhost"
           kubectl get pods -n selenium-grid-test
           kubectl get events -n selenium-grid-test
 
       - name: Run Chrome Tests Against Kubernetes
         run: |
-          python ./tests/K8sSmokeTest.py "http://localhost"
-          # chmod 755 ./tests/bootstrapKINDTests.sh
           export SELENIUM_GRID_HOST=localhost
           export SELENIUM_GRID_PORT=80
           ./tests/bootstrap.sh testonkubernetes.py NodeChrome
@@ -86,15 +85,15 @@ jobs:
           helm upgrade --install selenium-grid -f ./tests/override-kind-auth-edge-values.yaml charts/selenium-grid --namespace selenium-grid-test --create-namespace
           kubectl get ingress --all-namespaces
 
-      - name: Get pods 
+      - name: Verify Post Deployment Grid Health and k8s pods status 
         run: |
+          python ./tests/K8sSmokeTest.py "http://localhost"
           kubectl get pods -n selenium-grid-test
           kubectl get events -n selenium-grid-test
 
+
       - name: Run Edge Tests Against Kubernetes
         run: |
-          python ./tests/K8sSmokeTest.py "http://localhost"
-          # chmod 755 ./tests/bootstrapKINDTests.sh
           export SELENIUM_GRID_HOST=localhost
           export SELENIUM_GRID_PORT=80
           ./tests/bootstrap.sh testonkubernetes.py NodeEdge
@@ -104,15 +103,14 @@ jobs:
           helm upgrade --install selenium-grid -f ./tests/override-kind-auth-firefox-values.yaml charts/selenium-grid --namespace selenium-grid-test --create-namespace
           kubectl get ingress --all-namespaces
 
-      - name: Get pods 
+      - name: Verify Post Deployment Grid Health and k8s pods status 
         run: |
+          python ./tests/K8sSmokeTest.py "http://localhost"
           kubectl get pods -n selenium-grid-test
           kubectl get events -n selenium-grid-test
 
       - name: Run Firefox Tests Against Kubernetes
         run: |
-          python ./tests/K8sSmokeTest.py "http://localhost"
-          # chmod 755 ./tests/bootstrapKINDTests.sh
           export SELENIUM_GRID_HOST=localhost
           export SELENIUM_GRID_PORT=80
           ./tests/bootstrap.sh testonkubernetes.py NodeFirefox          
