@@ -77,4 +77,4 @@ jobs:
         run: |
           chmod 775 ./tests/bootstrapKINDTests.sh
           python ./tests/K8sSmokeTest.py "http://localhost"
-      # ./tests/bootstrapKINDTests.sh  
+      # ./tests/bootstrapKINDTests.sh
