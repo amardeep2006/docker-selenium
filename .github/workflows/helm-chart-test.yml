@@ -51,8 +51,8 @@ jobs:
         with:
          config: ./tests/kind-cluster-config.yaml
 
-# Documentation link for Ingress Installation on KIND k8s https://kind.sigs.k8s.io/docs/user/ingress
-      - name: Install Nginx Ingress On KIND Cluster
+# Documentation link for Ingress Installation on kind k8s cluster https://kind.sigs.k8s.io/docs/user/ingress
+      - name: Install Nginx Ingress On kind Cluster
         run: |
           kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
           kubectl wait --namespace ingress-nginx \
@@ -63,33 +63,26 @@ jobs:
       - name: Run chart-testing (install)
         run: ct install --all --config tests/chart-test.yaml
 
-      - name: Deploy Selenium Grid Chart via Helm
+      - name: Deploy Selenium Grid Chart via Helm 
         run: |      
-          helm repo add kedacore https://kedacore.github.io/charts
-          helm repo update
-          helm dependency build charts/selenium-grid
+          # helm repo add kedacore https://kedacore.github.io/charts
+          # helm repo update
+          # helm dependency build charts/selenium-grid
           helm install selenium-grid -f ./tests/override-kind-auth-values.yaml charts/selenium-grid --namespace selenium-grid-test --create-namespace
-          kubectl cluster-info
-          kubectl get all
           kubectl get ingress --all-namespaces
-          # sleep 90s # To be improved via a dyncmic health check
 
       - name: Wait for Grid deployment to be ready ⏰
         timeout-minutes: 5
         run: |
-          # Wait for Status to be ready
           url="http://localhost/status"
           status_code=0
           while [ $status_code -ne 200 ]
           do
               response=$(curl -s -o /dev/null -w "%{http_code}" $url)
               status_code=$(echo $response | tr -d '\n')
-              if [ $status_code -ne 200 ]; then
-               echo "Grid is not Ready Yet.Received HTTP status code: $status_code"
-              fi
-              sleep 2
+              sleep 1
           done
-          echo "HTTP 200 status received!"
+          echo "Selenium Grid is ready.HTTP 200 status received. 🚀"
 
       - name: Run Test cases Against Kubernetes
         run: |
