@@ -55,6 +55,15 @@ jobs:
       - name: Deploy Chart via Helm
         run: |
           kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+          kubectl wait --namespace ingress-nginx \
+          --for=condition=ready pod \
+          --selector=app.kubernetes.io/component=controller \
+          --timeout=90s
+          # helm upgrade --install ingress-nginx ingress-nginx \
+          # --repo https://kubernetes.github.io/ingress-nginx \
+          # --namespace ingress-nginx --create-namespace
+          kubectl get pods --namespace=ingress-nginx
+          # sleep 30
           helm repo add kedacore https://kedacore.github.io/charts
           helm repo update
           helm dependency build charts/selenium-grid
