@@ -1,3 +1,4 @@
+# This Config is required for KIND cluster to enable ingress. Documented here https://kind.sigs.k8s.io/docs/user/ingress 
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
