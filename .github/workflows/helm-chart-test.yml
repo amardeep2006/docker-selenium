@@ -56,4 +56,6 @@ jobs:
         run: helm install selenium-grid charts/selenium-grid --namespace selenium-grid-test --create-namespace       
 
       - name: Run Test cases Against Kubernetes
-        run: ./tests/bootstrapKINDTests.sh   
+        run: |
+          chmod 775 ./tests/bootstrapKINDTests.sh
+          ./tests/bootstrapKINDTests.sh   
