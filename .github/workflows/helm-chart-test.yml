@@ -55,7 +55,7 @@ jobs:
       - name: Deploy Chart via Helm
         run: |
           helm install selenium-grid charts/selenium-grid --namespace selenium-grid-test --create-namespace       
-          sleep 60 s # To be improved via a dyncmic health check
+          sleep 60s # To be improved via a dyncmic health check
 
       - name: Run Test cases Against Kubernetes
         run: |
