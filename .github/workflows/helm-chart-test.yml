@@ -43,8 +43,8 @@ jobs:
             echo "{changed}={true}" >> $GITHUB_OUTPUT
           fi
 
-      # - name: Run chart-testing (lint)
-      #   run: ct lint --config tests/chart-test.yaml
+      - name: Run chart-testing (lint)
+        run: ct lint --config tests/chart-test.yaml
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.8.0
@@ -52,7 +52,7 @@ jobs:
          config: ./tests/kind-cluster-config.yaml
 
 # 👋 Documentation link for Ingress Installation on kind k8s cluster https://kind.sigs.k8s.io/docs/user/ingress
-      - name: Install Nginx Ingress On kind Cluster
+      - name: Install ingress-nginx on kind kubernetes cluster
         run: |
           kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
           kubectl wait --namespace ingress-nginx \
@@ -64,16 +64,14 @@ jobs:
         run: ct install --all --config tests/chart-test.yaml
 
       - name: Deploy Selenium Grid Chart via Helm 
-        run: |      
-          # helm repo add kedacore https://kedacore.github.io/charts
-          # helm repo update
-          # helm dependency build charts/selenium-grid
+        run: |
           helm install selenium-grid -f ./tests/override-kind-auth-values.yaml charts/selenium-grid --namespace selenium-grid-test --create-namespace
           kubectl get ingress --all-namespaces
 
       - name: Wait for Grid deployment to be ready ⏰
         timeout-minutes: 5
         run: |
+          # Test if grid is accessible via Ingress on http://localhost
           url="http://localhost/status"
           status_code=0
           while [ $status_code -ne 200 ]
