@@ -51,9 +51,7 @@ jobs:
         with:
          config: ./tests/kind-cluster-config.yaml
 
-      # - name: Run chart-testing (install)
-      #   run: ct install --all --config tests/chart-test.yaml
-
+# Documentation link for Ingress Installation on KIND k8s https://kind.sigs.k8s.io/docs/user/ingress
       - name: Install Nginx Ingress On KIND Cluster
         run: |
           kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
@@ -61,6 +59,9 @@ jobs:
           --for=condition=ready pod \
           --selector=app.kubernetes.io/component=controller \
           --timeout=90s
+
+      - name: Run chart-testing (install)
+        run: ct install --all --config tests/chart-test.yaml
 
       - name: Deploy Selenium Grid Chart via Helm
         run: |      
