@@ -48,8 +48,8 @@ jobs:
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.8.0
-        # with:
-        #  config: ./tests/kind-cluster-config.yaml
+        with:
+         config: ./tests/kind-cluster-config.yaml
 
       # - name: Run chart-testing (install)
       #   run: ct install --all --config tests/chart-test.yaml
