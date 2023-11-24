@@ -79,6 +79,6 @@ jobs:
       - name: Run Test cases Against Kubernetes
         run: |
           chmod 775 ./tests/bootstrapKINDTests.sh
-          chmod 775 ./tests/bootstrapKINDTests.sh
+          chmod 775 ./tests/K8sSmokeTest.sh
           ./tests/K8sSmokeTest.py http://localhost
       # ./tests/bootstrapKINDTests.sh  
