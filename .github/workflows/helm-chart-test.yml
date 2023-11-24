@@ -63,6 +63,7 @@ jobs:
           --timeout=90s
 
       - name: Deploy Selenium Grid Chart via Helm
+        run: |      
           helm repo add kedacore https://kedacore.github.io/charts
           helm repo update
           helm dependency build charts/selenium-grid
