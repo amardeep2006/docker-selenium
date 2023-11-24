@@ -1,0 +1,5 @@
+# This will be used in Helm chart testing. This disables the basic auth on seleneium grid
+# Basic auth settings for Selenium Grid
+basicAuth:
+  # Enable or disable basic auth
+  enabled: false
