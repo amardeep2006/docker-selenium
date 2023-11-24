@@ -84,7 +84,10 @@ jobs:
           do
               response=$(curl -s -o /dev/null -w "%{http_code}" $url)
               status_code=$(echo $response | tr -d '\n')
-              sleep 1
+              if [ $status_code -ne 200 ]; then
+               echo "Grid is not Ready Yet.Received HTTP status code: $status_code"
+              fi
+              sleep 2
           done
           echo "HTTP 200 status received!"
 
