@@ -48,29 +48,27 @@ jobs:
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.8.0
-        with:
-         config: ./tests/kind-cluster-config.yaml
+        # with:
+        #  config: ./tests/kind-cluster-config.yaml
 
       # - name: Run chart-testing (install)
       #   run: ct install --all --config tests/chart-test.yaml
 
       - name: Deploy Chart via Helm
         run: |
-          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
-          kubectl wait --namespace ingress-nginx \
-          --for=condition=ready pod \
-          --selector=app.kubernetes.io/component=controller \
-          --timeout=90s
+          # kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+          # kubectl wait --namespace ingress-nginx \
+          # --for=condition=ready pod \
+          # --selector=app.kubernetes.io/component=controller \
+          # --timeout=90s
           # helm upgrade --install ingress-nginx ingress-nginx \
           # --repo https://kubernetes.github.io/ingress-nginx \
           # --namespace ingress-nginx --create-namespace
-          kubectl get pods --namespace=ingress-nginx
-          # sleep 30
+          # kubectl get pods --namespace=ingress-nginx
           helm repo add kedacore https://kedacore.github.io/charts
           helm repo update
           helm dependency build charts/selenium-grid
           helm install selenium-grid -f ./tests/override-kind-auth-values.yaml charts/selenium-grid --namespace selenium-grid-test --create-namespace
-          # sleep 30s
           kubectl cluster-info
           kubectl get all
           kubectl get ingress --all-namespaces
