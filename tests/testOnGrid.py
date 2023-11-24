@@ -165,7 +165,7 @@ logger = logging.getLogger(__name__)
 
 if __name__ == '__main__':
     # The container to test against
-    # image = sys.argv[1]
+    image = sys.argv[1]
 
     # use_random_user_id = USE_RANDOM_USER_ID == 'true'
     # run_in_docker_compose = RUN_IN_DOCKER_COMPOSE == 'true'
