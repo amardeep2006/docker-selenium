@@ -85,6 +85,7 @@ jobs:
       - name: Get pods 
         run: |
           kubectl get pods -n selenium-grid-test
+          kubectl get events -n selenium-grid-test
 
       - name: Run Smoke Test Against Kubernetes
         run: |
@@ -96,3 +97,4 @@ jobs:
       - name: Get pods again
         run: |
           kubectl get pods -n selenium-grid-test
+          kubectl get events -n selenium-grid-test
