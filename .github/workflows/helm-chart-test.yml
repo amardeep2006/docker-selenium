@@ -54,6 +54,7 @@ jobs:
 
       - name: Deploy Chart via Helm
         run: |
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
           helm repo add kedacore https://kedacore.github.io/charts
           helm repo update
           helm dependency build charts/selenium-grid
