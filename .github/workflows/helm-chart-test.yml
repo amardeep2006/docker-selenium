@@ -48,6 +48,8 @@ jobs:
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.8.0
+        with:
+         config: ./tests/kind-cluster-config.yaml
 
       # - name: Run chart-testing (install)
       #   run: ct install --all --config tests/chart-test.yaml
@@ -77,4 +79,4 @@ jobs:
       # - name: Run Test cases Against Kubernetes
       #   run: |
       #     chmod 775 ./tests/bootstrapKINDTests.sh
-      #     ./tests/bootstrapKINDTests.sh   
+      #     c  
