@@ -74,9 +74,9 @@ jobs:
           kubectl cluster-info
           kubectl get all
           kubectl get ingress --all-namespaces
-          # sleep 300s # To be improved via a dyncmic health check
+          sleep 90s # To be improved via a dyncmic health check
 
-      # - name: Run Test cases Against Kubernetes
-      #   run: |
-      #     chmod 775 ./tests/bootstrapKINDTests.sh
-      #     c  
+      - name: Run Test cases Against Kubernetes
+        run: |
+          chmod 775 ./tests/bootstrapKINDTests.sh
+          ./tests/bootstrapKINDTests.sh  
