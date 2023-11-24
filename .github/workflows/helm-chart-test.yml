@@ -48,3 +48,9 @@ jobs:
 
       - name: Run chart-testing (install)
         run: ct install --all --config tests/chart-test.yaml
+
+      - name: Deploy Chart via Helm
+        run: helm install charts/selenium-grid --namespace selenium-grid-test --create-namespace       
+
+      - name: Run Test cases Against Kubernetes
+        run: ./tests/bootstrapKINDTests.sh   
