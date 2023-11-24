@@ -43,19 +43,19 @@ logger = logging.getLogger(__name__)
 #     'StandaloneFirefox': 'standalone-firefox',
 # }
 
-# TEST_NAME_MAP = {
-#     # Chrome Images
-#     'NodeChrome': 'ChromeTests',
-#     'StandaloneChrome': 'ChromeTests',
+TEST_NAME_MAP = {
+    # Chrome Images
+    'NodeChrome': 'ChromeTests',
+    'StandaloneChrome': 'ChromeTests',
 
-#     # Edge Images
-#     'NodeEdge': 'EdgeTests',
-#     'StandaloneEdge': 'EdgeTests',
+    # Edge Images
+    'NodeEdge': 'EdgeTests',
+    'StandaloneEdge': 'EdgeTests',
 
-#     # Firefox Images
-#     'NodeFirefox': 'FirefoxTests',
-#     'StandaloneFirefox': 'FirefoxTests',
-# }
+    # Firefox Images
+    'NodeFirefox': 'FirefoxTests',
+    'StandaloneFirefox': 'FirefoxTests',
+}
 
 # FROM_IMAGE_ARGS = {
 #     'NAMESPACE': NAMESPACE,

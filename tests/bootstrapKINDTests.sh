@@ -12,6 +12,8 @@ python -m pip install selenium==4.15.0 \
                       | grep -v 'Requirement already satisfied'
 
 python testOnGrid.py NodeChrome
+python testOnGrid.py NodeEdge
+python testOnGrid.py NodeFirefox
 ret_code=$?
 
 if [ "${CI:-false}" = "false" ]; then
