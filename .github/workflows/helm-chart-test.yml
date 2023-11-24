@@ -78,12 +78,15 @@ jobs:
         timeout-minutes: 5
         run: |
           # Wait for Status to be ready
-          until [[ $(curl -s "http://localhost/status" | tee /tmp/output_status.txt | jq -r .value.ready) -eq "true" ]]
+          url="http://localhost/status"
+          status_code=0
+          while [ $status_code -ne 200 ]
           do
-            cat /tmp/output_status.txt || true
-            echo "sleeping.........Not ready yet"
-            sleep 5
+              response=$(curl -s -o /dev/null -w "%{http_code}" $url)
+              status_code=$(echo $response | tr -d '\n')
+              sleep 1
           done
+          echo "HTTP 200 status received!"
 
       - name: Run Test cases Against Kubernetes
         run: |
