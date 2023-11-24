@@ -69,7 +69,7 @@ jobs:
           helm repo add kedacore https://kedacore.github.io/charts
           helm repo update
           helm dependency build charts/selenium-grid
-          helm install selenium-grid charts/selenium-grid --namespace selenium-grid-test --create-namespace
+          helm install selenium-grid -f ./tests/override-kind-auth-values.yaml charts/selenium-grid --namespace selenium-grid-test --create-namespace
           # sleep 30s
           kubectl cluster-info
           kubectl get all
