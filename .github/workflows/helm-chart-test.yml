@@ -104,12 +104,11 @@ jobs:
 
       - name: Verify Post Deployment Grid Health and k8s pods status 
         run: |
-          # sleep 10 # Allow time to kubernetes to settle down pods
           python ./tests/K8sSmokeTest.py "http://localhost"
           kubectl get pods -n selenium-grid-test
           kubectl get events -n selenium-grid-test
 
-      - name: Run Chrome Tests Against Kubernetes
+      - name: Run Selenium Tests Against Kubernetes
         run: |
           export SELENIUM_GRID_HOST=localhost
           export SELENIUM_GRID_PORT=80
